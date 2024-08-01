@@ -13,7 +13,7 @@ function Navbar() {
       </Link>
       <div className="flex space-x-4 text-sm sm:text-base">
         <Link href="/" className="hover:text-[var(--highlight-color)]" style={{ color: 'var(--text-color)' }}>Home</Link>
-        <Link href="/" className="hover:text-[var(--highlight-color)]" style={{ color: 'var(--text-color)' }}>About</Link>
+        <Link href="/about" className="hover:text-[var(--highlight-color)]" style={{ color: 'var(--text-color)' }}>About</Link>
         <Link href="https://chat.whatsapp.com/KZDLqsXCdTW4k5CVj1vF7S" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--highlight-color)]" style={{ color: 'var(--text-color)' }}>
           Contact
         </Link>

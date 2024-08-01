@@ -15,7 +15,9 @@ function Page() {
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(true);
 
-
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const checkMobile = () => {

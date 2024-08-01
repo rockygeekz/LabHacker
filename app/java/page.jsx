@@ -17,13 +17,17 @@ function Page() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
     const checkMobile = () => {
       if (typeof window !== "undefined") {
         const isMobileDevice = window.innerWidth <= 768;
         if (isMobile !== isMobileDevice) {
           setIsMobile(isMobileDevice);
         }
-        setLoading(false); // Ensure loading is set to false
+        setLoading(false); 
       }
     };
 
