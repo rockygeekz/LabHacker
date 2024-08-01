@@ -1,28 +1,19 @@
-
 import React from 'react';
 import Link from 'next/link';
 
 function Navbar() {
   return (
-    <nav className=" bg-lime-100 shadow-lg">
-      <div className="container  mx-auto   p-4 flex justify-center items-center">
-            <Link href="/" >        
-            <div className="text-2xl  font-bold">
-          <span className="text-black" style={{ fontFamily: 'Arial, sans-serif' }}>Lab</span>
-          <span className="text-amber-950" style={{ fontFamily: 'Courier New, monospace' }}>Hacker</span>
+    <nav className="bg-[#111827] flex justify-center items-center px-6 w-full font-semibold">
+      <Link href="/">
+        <div className="text-2xl font-bold">
+          <span className="text-[#F9FAFB]" style={{ fontFamily: 'Arial, sans-serif' }}>Lab</span>
+          <span className="text-[#F59E0B]" style={{ fontFamily: 'Courier New, monospace' }}>Hacker</span>
         </div>
-        </Link>
-        <div className="flex space-x-4">
-          <Link href="/" className="text-black hover:text-yellow-300">
-            Home
-          </Link>
-          <Link href="/about" className="text-black hover:text-yellow-300">
-            About
-          </Link>
-          <Link href="/contact" className="text-black hover:text-yellow-300">
-            Contact
-          </Link>
-        </div>
+      </Link>
+      <div className="px-4 min-w-[50%] backdrop-filter backdrop-blur-lg justify-end flex gap-6">
+        <Link href="/about" className="text-[#F9FAFB] hover:text-[#F59E0B]">Home</Link>
+        <Link href="/about" className="text-[#F9FAFB] hover:text-[#F59E0B]">About</Link>
+        <Link href="/about" className="text-[#F9FAFB] hover:text-[#F59E0B]">Contact</Link>
       </div>
     </nav>
   );

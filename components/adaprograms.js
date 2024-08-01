@@ -1,4 +1,4 @@
-const programs = [
+const adaprograms = [
     {
       id: 4,
       name: 'Program-4',
@@ -466,5 +466,5 @@ const programs = [
     }
   ];
   
-  module.exports = programs;
+  module.exports = adaprograms;
   
