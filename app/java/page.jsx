@@ -7,7 +7,6 @@ import { Collapse } from "react-collapse";
 import programs from "@/components/javaprograms"; // Adjust the path as necessary
 import MobileWarning from "@/components/mobilewarning";
 import Loading from "@/components/loadingHacker"; // Adjust the path as necessary
-import ThemeProvider from "@/components/ThemeProvider";
 
 function Page() {
   const [theme, setTheme] = useState("hacker");

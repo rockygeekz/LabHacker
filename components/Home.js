@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import ThemeProvider from '@/components/ThemeProvider';
+import ThemeProvider from '@/components/themeProvider';
 
 function Home() {
 

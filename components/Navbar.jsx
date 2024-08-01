@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import Link from 'next/link';
-import ThemeProvider from '@/components/ThemeProvider';
+import ThemeProvider from '@/components/themeProvider';
 
 function Navbar() {
   return (
