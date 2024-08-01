@@ -4,15 +4,20 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Collapse } from "react-collapse";
-import programs from "@/components/adaprograms"; // Adjust the path as necessary
+import programs from "@/components/adaprograms";
 import MobileWarning from "@/components/mobilewarning";
-import Loading from "@/components/loading"; // Adjust the path as necessary
+import Loading from "@/components/loadingHacker";
 
 function Page() {
+  const [theme, setTheme] = useState("default");
   const [copiedId, setCopiedId] = useState(null);
   const [openId, setOpenId] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -21,20 +26,20 @@ function Page() {
         if (isMobile !== isMobileDevice) {
           setIsMobile(isMobileDevice);
         }
-        setLoading(false); // Ensure loading is set to false
+        setLoading(false);
       }
     };
 
-    checkMobile(); // Initial check
+    checkMobile();
 
     if (typeof window !== "undefined") {
-      window.addEventListener("resize", checkMobile); // Update on resize
+      window.addEventListener("resize", checkMobile);
 
       return () => {
-        window.removeEventListener("resize", checkMobile); // Cleanup on unmount
+        window.removeEventListener("resize", checkMobile);
       };
     }
-  }, [isMobile]); // Add isMobile to the dependency array
+  }, [isMobile]);
 
   const handleCopy = (id) => {
     setCopiedId(id);
@@ -43,6 +48,11 @@ function Page() {
 
   const handleToggle = (id) => {
     setOpenId(openId === id ? null : id);
+  };
+
+  const toggleTheme = () => {
+    const newTheme = theme === "default" ? "hacker" : "default";
+    setTheme(newTheme);
   };
 
   if (loading) {
@@ -54,18 +64,42 @@ function Page() {
       {isMobile ? (
         <MobileWarning />
       ) : (
-        <div className="container mx-auto bg-[#111827] p-4">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-[#F9FAFB]">
+        <div
+          className={`container mx-auto p-4 ${
+            theme === "hacker" ? "bg-[#121212] h-screen" : ""
+          }`}
+        >
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={toggleTheme}
+              className="text-[#F9FAFB] hover:text-[#F59E0B]"
+            >
+              Toggle Theme
+            </button>
+          </div>
+          <h1
+            className={`text-3xl md:text-4xl font-bold mb-6 ${
+              theme === "hacker" ? "text-[#00FF00]" : "text-[#F9FAFB]"
+            }`}
+          >
             ADA Programs
           </h1>
           <div className="grid gap-6">
             {programs.map((program) => (
               <div
                 key={program.id}
-                className="bg-[#1E293B] p-4 md:p-6 rounded-lg shadow-md border border-[#374151]"
+                className={`p-4 md:p-6 rounded-lg shadow-md border ${
+                  theme === "hacker"
+                    ? "bg-[#1C1C1C] border-[#00FF00]"
+                    : "bg-[#1E293B] border-[#374151]"
+                }`}
               >
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-                  <span className="text-xl md:text-2xl font-medium text-[#F9FAFB]">
+                  <span
+                    className={`text-xl md:text-2xl font-medium ${
+                      theme === "hacker" ? "text-[#00FF00]" : "text-[#F9FAFB]"
+                    }`}
+                  >
                     {program.name}
                   </span>
                   <div className="flex items-center space-x-2 mt-4 md:mt-0">
@@ -73,12 +107,22 @@ function Page() {
                       text={program.code}
                       onCopy={() => handleCopy(program.id)}
                     >
-                      <button className="bg-[#10B981] text-white px-2 md:px-4 py-2 text-xs md:text-base rounded hover:bg-[#0F766E] transition duration-200">
+                      <button
+                        className={`px-2 md:px-4 py-2 text-xs md:text-base rounded transition duration-200 ${
+                          theme === "hacker"
+                            ? "bg-[#00FF00] text-[#121212] hover:bg-[#007700]"
+                            : "bg-[#10B981] text-white hover:bg-[#0F766E]"
+                        }`}
+                      >
                         {copiedId === program.id ? "Copied!" : "Copy Code"}
                       </button>
                     </CopyToClipboard>
                     <button
-                      className="bg-[#F59E0B] text-white px-2 md:px-4 py-2 text-xs md:text-base rounded hover:bg-[#D97706] transition duration-200"
+                      className={`px-2 md:px-4 py-2 text-xs md:text-base rounded transition duration-200 ${
+                        theme === "hacker"
+                          ? "bg-[#00FF00] text-[#121212] hover:bg-[#007700]"
+                          : "bg-[#F59E0B] text-white hover:bg-[#D97706]"
+                      }`}
                       onClick={() => handleToggle(program.id)}
                     >
                       {openId === program.id ? "Hide Code" : "Show Code"}
@@ -89,7 +133,11 @@ function Page() {
                   <SyntaxHighlighter
                     language="cpp"
                     style={okaidia}
-                    className="rounded-lg border border-[#374151] mt-4"
+                    className={`rounded-lg border mt-4 ${
+                      theme === "hacker"
+                        ? "border-[#00FF00]"
+                        : "border-[#374151]"
+                    }`}
                   >
                     {program.code}
                   </SyntaxHighlighter>

@@ -6,9 +6,11 @@ import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Collapse } from "react-collapse";
 import programs from "@/components/javaprograms"; // Adjust the path as necessary
 import MobileWarning from "@/components/mobilewarning";
-import Loading from "@/components/loading"; // Adjust the path as necessary
+import Loading from "@/components/loadingHacker"; // Adjust the path as necessary
+import ThemeProvider from "@/components/ThemeProvider";
 
 function Page() {
+  const [theme, setTheme] = useState("hacker");
   const [copiedId, setCopiedId] = useState(null);
   const [openProgramId, setOpenProgramId] = useState(null);
   const [openFileId, setOpenFileId] = useState({});
@@ -62,32 +64,79 @@ function Page() {
       {isMobile ? (
         <MobileWarning />
       ) : (
-        <div className="container h-full mx-auto bg-[#111827] p-4">
-          <h1 className="text-3xl font-bold mb-6 text-[#F9FAFB]">Java Lab Programs</h1>
+        <div
+          className={`container h-full mx-auto p-4 ${
+            theme === "hacker" ? "bg-[#121212] h-screen" : ""
+          }`}
+        >
+          <div className="flex justify-end mb-4"></div>
+          <h1
+            className={`text-3xl font-bold mb-6 ${
+              theme === "hacker" ? "text-[#00FF00]" : "text-[#F9FAFB]"
+            }`}
+          >
+            Java Lab Programs
+          </h1>
           <div className="grid gap-6">
             {programs.map((program) => (
-              <div key={program.id} className="bg-[#1E293B] p-6 rounded-lg shadow-md border border-[#374151]">
+              <div
+                key={program.id}
+                className={`p-6 rounded-lg shadow-md border ${
+                  theme === "hacker"
+                    ? "bg-[#1C1C1C] border-[#00FF00]"
+                    : "bg-[#1E293B] border-[#374151]"
+                }`}
+              >
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-xl font-medium text-[#F9FAFB]">{program.name}</span>
+                  <span
+                    className={`text-xl font-medium ${
+                      theme === "hacker" ? "text-[#00FF00]" : "text-[#F9FAFB]"
+                    }`}
+                  >
+                    {program.name}
+                  </span>
                   {program.files.length > 1 ? (
                     <button
-                      className="bg-[#F59E0B] text-white px-4 py-2 rounded hover:bg-[#D97706] transition duration-200"
+                      className={`px-4 py-2 rounded transition duration-200 ${
+                        theme === "hacker"
+                          ? "bg-[#00FF00] text-[#121212] hover:bg-[#007700]"
+                          : "bg-[#F59E0B] text-white hover:bg-[#D97706]"
+                      }`}
                       onClick={() => handleProgramToggle(program.id)}
                     >
-                      {openProgramId === program.id ? 'Hide Files' : 'Show Files'}
+                      {openProgramId === program.id
+                        ? "Hide Files"
+                        : "Show Files"}
                     </button>
                   ) : (
                     <div className="flex items-center space-x-2">
-                      <CopyToClipboard text={program.files[0].content} onCopy={() => handleCopy(`${program.id}-0`)}>
-                        <button className="bg-[#10B981] text-white px-4 py-2 rounded hover:bg-[#0F766E] transition duration-200">
-                          {copiedId === `${program.id}-0` ? 'Copied!' : 'Copy Code'}
+                      <CopyToClipboard
+                        text={program.files[0].content}
+                        onCopy={() => handleCopy(`${program.id}-0`)}
+                      >
+                        <button
+                          className={`px-4 py-2 rounded transition duration-200 ${
+                            theme === "hacker"
+                              ? "bg-[#00FF00] text-[#121212] hover:bg-[#007700]"
+                              : "bg-[#10B981] text-white hover:bg-[#0F766E]"
+                          }`}
+                        >
+                          {copiedId === `${program.id}-0`
+                            ? "Copied!"
+                            : "Copy Code"}
                         </button>
                       </CopyToClipboard>
                       <button
-                        className="bg-[#F59E0B] text-white px-4 py-2 rounded hover:bg-[#D97706] transition duration-200"
+                        className={`px-4 py-2 rounded transition duration-200 ${
+                          theme === "hacker"
+                            ? "bg-[#00FF00] text-[#121212] hover:bg-[#007700]"
+                            : "bg-[#F59E0B] text-white hover:bg-[#D97706]"
+                        }`}
                         onClick={() => handleFileToggle(program.id, 0)}
                       >
-                        {openFileId[program.id] === 0 ? 'Hide Code' : 'Show Code'}
+                        {openFileId[program.id] === 0
+                          ? "Hide Code"
+                          : "Show Code"}
                       </button>
                     </div>
                   )}
@@ -96,25 +145,69 @@ function Page() {
                   <Collapse isOpened={openProgramId === program.id}>
                     <div className="space-y-4">
                       {program.files.map((file, index) => (
-                        <div key={index} className="bg-[#2D3748] p-4 rounded-lg shadow-md border border-[#4A5568]">
+                        <div
+                          key={index}
+                          className={`p-4 rounded-lg shadow-md border ${
+                            theme === "hacker"
+                              ? "bg-[#1C1C1C] border-[#00FF00]"
+                              : "bg-[#1E293B] border-[#374151]"
+                          }`}
+                        >
                           <div className="flex justify-between items-center mb-2">
-                            <span className="text-lg font-medium text-[#F9FAFB]">{file.name}</span>
+                            <span
+                              className={`text-lg font-medium ${
+                                theme === "hacker"
+                                  ? "text-[#00FF00]"
+                                  : "text-[#F9FAFB]"
+                              }`}
+                            >
+                              {file.name}
+                            </span>
                             <div className="flex items-center space-x-2">
-                              <CopyToClipboard text={file.content} onCopy={() => handleCopy(`${program.id}-${index}`)}>
-                                <button className="bg-[#10B981] text-white px-4 py-2 rounded hover:bg-[#0F766E] transition duration-200">
-                                  {copiedId === `${program.id}-${index}` ? 'Copied!' : 'Copy Code'}
+                              <CopyToClipboard
+                                text={file.content}
+                                onCopy={() =>
+                                  handleCopy(`${program.id}-${index}`)
+                                }
+                              >
+                                <button
+                                  className={`px-4 py-2 rounded transition duration-200 ${
+                                    theme === "hacker"
+                                      ? "bg-[#00FF00] text-[#121212] hover:bg-[#007700]"
+                                      : "bg-[#10B981] text-white hover:bg-[#0F766E]"
+                                  }`}
+                                >
+                                  {copiedId === `${program.id}-${index}`
+                                    ? "Copied!"
+                                    : "Copy Code"}
                                 </button>
                               </CopyToClipboard>
                               <button
-                                className="bg-[#F59E0B] text-white px-4 py-2 rounded hover:bg-[#D97706] transition duration-200"
-                                onClick={() => handleFileToggle(program.id, index)}
+                                className={`px-4 py-2 rounded transition duration-200 ${
+                                  theme === "hacker"
+                                    ? "bg-[#00FF00] text-[#121212] hover:bg-[#007700]"
+                                    : "bg-[#F59E0B] text-white hover:bg-[#D97706]"
+                                }`}
+                                onClick={() =>
+                                  handleFileToggle(program.id, index)
+                                }
                               >
-                                {openFileId[program.id] === index ? 'Hide Code' : 'Show Code'}
+                                {openFileId[program.id] === index
+                                  ? "Hide Code"
+                                  : "Show Code"}
                               </button>
                             </div>
                           </div>
                           <Collapse isOpened={openFileId[program.id] === index}>
-                            <SyntaxHighlighter language="java" style={okaidia} className="rounded-lg border border-[#374151] mt-4">
+                            <SyntaxHighlighter
+                              language="java"
+                              style={okaidia}
+                              className={`rounded-lg border mt-4 ${
+                                theme === "hacker"
+                                  ? "border-[#00FF00]"
+                                  : "border-[#374151]"
+                              }`}
+                            >
                               {file.content}
                             </SyntaxHighlighter>
                           </Collapse>
@@ -124,7 +217,15 @@ function Page() {
                   </Collapse>
                 ) : (
                   <Collapse isOpened={openFileId[program.id] === 0}>
-                    <SyntaxHighlighter language="java" style={okaidia} className="rounded-lg border border-[#374151] mt-4">
+                    <SyntaxHighlighter
+                      language="java"
+                      style={okaidia}
+                      className={`rounded-lg border mt-4 ${
+                        theme === "hacker"
+                          ? "border-[#00FF00]"
+                          : "border-[#374151]"
+                      }`}
+                    >
                       {program.files[0].content}
                     </SyntaxHighlighter>
                   </Collapse>
