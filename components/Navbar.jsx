@@ -11,9 +11,9 @@ function Navbar() {
         </div>
       </Link>
       <div className="flex space-x-4 text-sm sm:text-base">
-        <Link href="/about" className="text-[#F9FAFB] hover:text-[#F59E0B]">Home</Link>
-        <Link href="/about" className="text-[#F9FAFB] hover:text-[#F59E0B]">About</Link>
-        <Link href="/about" className="text-[#F9FAFB] hover:text-[#F59E0B]">Contact</Link>
+        <Link href="/" className="text-[#F9FAFB] hover:text-[#F59E0B]">Home</Link>
+        <Link href="/" className="text-[#F9FAFB] hover:text-[#F59E0B]">About</Link>
+        <Link href="/" className="text-[#F9FAFB] hover:text-[#F59E0B]">Contact</Link>
       </div>
     </nav>
   );
