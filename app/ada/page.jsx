@@ -9,15 +9,13 @@ import MobileWarning from "@/components/mobilewarning";
 import Loading from "@/components/loadingHacker";
 
 function Page() {
-  const [theme, setTheme] = useState("default");
+  const [theme, setTheme] = useState("hacker");
   const [copiedId, setCopiedId] = useState(null);
   const [openId, setOpenId] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+
 
   useEffect(() => {
     const checkMobile = () => {
@@ -50,11 +48,6 @@ function Page() {
     setOpenId(openId === id ? null : id);
   };
 
-  const toggleTheme = () => {
-    const newTheme = theme === "default" ? "hacker" : "default";
-    setTheme(newTheme);
-  };
-
   if (loading) {
     return <Loading />;
   }
@@ -70,12 +63,6 @@ function Page() {
           }`}
         >
           <div className="flex justify-end mb-4">
-            <button
-              onClick={toggleTheme}
-              className="text-[#F9FAFB] hover:text-[#F59E0B]"
-            >
-              Toggle Theme
-            </button>
           </div>
           <h1
             className={`text-3xl md:text-4xl font-bold mb-6 ${
