@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 
 function Danger() {
   useEffect(() => {
-    const audio = new Audio('/static/audio/prank.mp3'); // Ensure your audio file is in the public/static/audio folder
+    const audio = new Audio('/audio1.mp3'); // Ensure your audio file is in the public/static/audio folder
     audio.play().catch(error => console.log('Audio play error:', error)); // Handle error
     return () => {
       audio.pause();
@@ -18,7 +18,7 @@ function Danger() {
       <div className="text-center flex flex-col items-center justify-center ">
         <Image 
           src="/static/images/prank-image.jpg" 
-          alt="Prank Image"
+          alt="Image"
           className="mb-4 rounded-lg bg-red-600 "
           width={300}
           height={300}
