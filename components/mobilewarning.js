@@ -19,9 +19,9 @@ function MobileWarning() {
         </p>
         <Link href="/danger">
           <button 
-            className="px-4 py-2 mt-4 font-bold text-[#000000] bg-[#00FF00] border-2 border-[#00FF00] rounded-md hover:bg-[#00FF00] hover:text-black transition-all duration-300 animate-pulse"
+            className="px-4 py-2 mt-4 font-bold text-red-500 bg-[#00FF00] border-2 border-[#00FF00] rounded-md hover:bg-[#00FF00] hover:text-black transition-all duration-300 animate-pulse"
           >
-            Proceed for Danger! 💀
+            View Anyway!💀
           </button>
         </Link>
       </div>
