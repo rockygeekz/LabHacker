@@ -17,7 +17,7 @@ function Danger() {
     <div className="flex flex-col justify-center items-center min-h-screen bg-[#000000] text-[#00FF00] p-4">
       <div className="text-center flex flex-col items-center justify-center ">
         <Image 
-          src="/static/images/prank-image.jpg" 
+          src="/img.jpg" 
           alt="Image"
           className="mb-4 rounded-lg bg-red-600 "
           width={300}
