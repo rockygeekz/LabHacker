@@ -1,4 +1,3 @@
-// pages/danger.js
 "use client";
 import Image from 'next/image';
 import React, { useEffect } from 'react';
@@ -6,6 +5,7 @@ import React, { useEffect } from 'react';
 function Danger() {
   useEffect(() => {
     const audio = new Audio('/audio1.mp3'); // Ensure your audio file is in the public/static/audio folder
+    audio.loop = true; // Set audio to loop
     audio.play().catch(error => console.log('Audio play error:', error)); // Handle error
     return () => {
       audio.pause();
