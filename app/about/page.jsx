@@ -28,7 +28,7 @@ function About() {
           ></iframe>
         </div>
         <a 
-          href="https://maps.google.com/maps?width=100%&amp;height=100%&amp;hl=en&amp;q=pattanagere,Bangalore,India&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" 
+          href="https://maps.google.com/maps?ll=12.920994,77.509732&z=15&t=m&hl=en&gl=US&mapclient=embed&q=Pattanagere%20Rajarajeshwari%20Nagar%20Bengaluru%2C%20Karnataka%20560098" 
           target="_blank" 
           rel="noopener noreferrer" 
           className="text-md md:text-lg text-[#00FF00] underline"
