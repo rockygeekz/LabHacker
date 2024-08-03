@@ -215,39 +215,52 @@ const javaprograms = [
           language: 'java',
           content: String.raw`
             // Program 7: Swing event handling with two buttons.
-            import javax.swing.*;
-            import java.awt.event.ActionEvent;
-            import java.awt.event.ActionListener;
-  
-            public class SwingEventHandlingDemo {
-                public static void main(String[] args) {
-                    JFrame frame = new JFrame("Swing Demo");
-                    JButton btnAlpha = new JButton("Alpha");
-                    JButton btnBeta = new JButton("Beta");
-  
-                    btnAlpha.setBounds(50, 100, 95, 30);
-                    btnBeta.setBounds(150, 100, 95, 30);
-  
-                    btnAlpha.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            JOptionPane.showMessageDialog(frame, "Alpha pressed");
-                        }
-                    });
-  
-                    btnBeta.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            JOptionPane.showMessageDialog(frame, "Beta pressed");
-                        }
-                    });
-  
-                    frame.add(btnAlpha);
-                    frame.add(btnBeta);
-                    frame.setSize(400, 400);
-                    frame.setLayout(null);
-                    frame.setVisible(true);
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                }
-            }
+package javaprogram;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class ButtonEventHandling extends JFrame implements ActionListener {
+ JButton alphaButton, betaButton;
+ JLabel messageLabel;
+ public ButtonEventHandling() {
+ setTitle("Button Event Handling Example");
+ setSize(300, 200);
+ setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ // Create buttons
+ alphaButton = new JButton("Alpha");
+ betaButton = new JButton("Beta");
+ // Create label to display message
+ messageLabel = new JLabel("");
+ // Add action listeners to buttons
+ alphaButton.addActionListener(this);
+ betaButton.addActionListener(this);
+ // Set layout
+ setLayout(new FlowLayout());
+ // Add components to the frame
+ add(alphaButton);
+ add(betaButton);
+ add(messageLabel);
+ // Set frame visibility
+setVisible(true);
+ }
+ // Event handling method
+ public void actionPerformed(ActionEvent e) {
+ if (e.getSource() == alphaButton) {
+ messageLabel.setText("Alpha pressed");
+ } else if (e.getSource() == betaButton) {
+ messageLabel.setText("Beta pressed");
+ }
+ }
+ public static void main(String[] args) {
+ SwingUtilities.invokeLater(new Runnable() {
+ public void run() {
+ new ButtonEventHandling();
+ }
+ });
+ }
+}
+Note: Delete the module – info file inside the package of your class.
+
           `,
         },
       ],
@@ -257,24 +270,48 @@ const javaprograms = [
       name: 'Program 8',
       files: [
         {
-          name: 'Servlet.java',
+          name: 'GreetingServlet.java',
           language: 'java',
           content: String.raw`
-            // Program 8: Display a greeting message using Servlet.
-            import java.io.IOException;
-            import java.io.PrintWriter;
-            import javax.servlet.ServletException;
-            import javax.servlet.http.HttpServlet;
-            import javax.servlet.http.HttpServletRequest;
-            import javax.servlet.http.HttpServletResponse;
-  
-            public class Servlet extends HttpServlet {
-                protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                    response.setContentType("text/html");
-                    PrintWriter out = response.getWriter();
-                    String user = request.getParameter("user");
-                    out.println("<h1>Hello " + user + "!</h1>");
-                    out.println("<p>How Are You?</p>");
+// Program 8: Display a greeting message using Servlet.
+package mypackage;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Servlet implementation class GreetingServlet
+ */
+public class GreetingServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public GreetingServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("text/html");
+		String username = request.getParameter("username");
+		String greetingMessage = "Hello " + (username != null ? username : "User") + ", How Are You?";  
+		response.getWriter().println("<html><body>");
+		 response.getWriter().println("<h1>" + greetingMessage + "</h1>");
+		 response.getWriter().println("</body></html>");
+	}
+
+}
+
                 }
             }
           `,
@@ -283,7 +320,6 @@ const javaprograms = [
           name: 'web.xml',
           language: 'xml',
           content: String.raw`
-            <web-app>
               <servlet>
                 <servlet-name>GreetingServlet</servlet-name>
                 <servlet-class>Servlet</servlet-class>
@@ -292,26 +328,24 @@ const javaprograms = [
                 <servlet-name>GreetingServlet</servlet-name>
                 <url-pattern>/greet</url-pattern>
               </servlet-mapping>
-            </web-app>
           `,
         },
         {
-          name: 'index.html',
+          name: 'greeting_form.html',
           language: 'html',
           content: String.raw`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Servlet Example</title>
-            </head>
-            <body>
-                <h1>Enter Your Name</h1>
-                <form action="greet">
-                    <input type="text" name="user">
-                    <input type="submit" value="Greet Me">
-                </form>
-            </body>
-            </html>
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Greeting Form</title>
+</head>
+<body>
+ <form action="greet" method="get">
+ Username: <input type="text" name="username">
+ <input type="submit" value="Submit">
+ </form>
+</body>
+</html>
           `,
         },
       ],
