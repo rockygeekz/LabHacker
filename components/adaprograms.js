@@ -433,180 +433,230 @@ void main() {
       id: 9,
       name: 'Program-9',
       code: String.raw`
-  #include <stdio.h>
-  void towers(int, char, char, char);
-  int main() {
-    int num;
-    printf("Enter the number of disks : ");
-    scanf("%d", &num);
-    printf("The sequence of moves involved in the Tower of Hanoi are :\n");
-    towers(num, 'A', 'C', 'B');
-    return 0;
-  }
-  void towers(int num, char frompeg, char topeg, char auxpeg) {
-    if (num == 1) {
-      printf("\n Move disk 1 from peg %c to peg %c", frompeg, topeg);
-      return;
+ #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void selectionsort(int A[], int n) {
+    int i, j, min;
+    for (i = 0; i < n - 1; i++) {
+        min = i;
+        for (j = i + 1; j < n; j++) {
+            if (A[j] < A[min]) {
+                min = j;
+            }
+        }
+        if (min != i) {
+            int temp = A[i];  // Corrected variable
+            A[i] = A[min];
+            A[min] = temp;
+        }
     }
-    towers(num - 1, frompeg, auxpeg, topeg);
-    printf("\n Move disk %d from peg %c to peg %c", num, frompeg, topeg);
-    towers(num - 1, auxpeg, topeg, frompeg);
-  }`
+}
+
+int main() {
+    srand(time(NULL));  // Corrected function name
+    int n = 30000;
+    int elements[n];
+
+    // Generate random elements
+    for (int i = 0; i < n; i++) {
+        elements[i] = rand() % 1000;
+    }
+
+    // Test the sorting algorithm on different sizes of the array
+    for (int size = 5000; size <= n; size += 2000) {
+        int arr[size];
+
+        // Copy elements to the array to be sorted
+        for (int i = 0; i < size; i++) {
+            arr[i] = elements[i];
+        }
+
+        // Start the clock
+        clock_t start = clock();
+
+        // Perform selection sort
+        selectionsort(arr, size);
+
+        // Stop the clock
+        clock_t stop = clock();
+
+        // Calculate time taken
+        double time_taken = ((double)(stop - start) / CLOCKS_PER_SEC);
+
+        // Print the time taken
+        printf("Time taken to sort %d elements is %f seconds\n", size, time_taken);
+    }
+
+    return 0;
+}
+`
     },
     {
       id: 10,
       name: 'Program-10',
       code: String.raw`
   #include <stdio.h>
-  #include <stdlib.h>
-  #define MAX 100
-  #define initial 1
-  #define waiting 2
-  #define visited 3
-  int n; // Number of vertices in the graph
-  int adj[MAX][MAX]; // Adjacency Matrix
-  int state[MAX]; // can be initial, waiting, or visited
-  void create_graph();
-  void BF_Traversal();
-  void BFS(int v);
-  int queue[MAX], front = -1, rear = -1;
-  void insert_queue(int vertex);
-  int delete_queue();
-  int isEmpty_queue();
-  int main() {
-    create_graph();
-    BF_Traversal();
-    return 0;
-  }
-  void BF_Traversal() {
-    int v;
-    for (v = 0; v < n; v++)
-      state[v] = initial;
-    printf("Enter Start Vertex for BFS: \n");
-    scanf("%d", &v);
-    BFS(v);
-  }
-  void BFS(int v) {
-    int i;
-    insert_queue(v);
-    state[v] = waiting;
-    while (!isEmpty_queue()) {
-      v = delete_queue();
-      printf("%d ", v);
-      state[v] = visited;
-      for (i = 0; i < n; i++) {
-        if (adj[v][i] == 1 && state[i] == initial) {
-          insert_queue(i);
-          state[i] = waiting;
+#include <time.h>
+#include <stdlib.h>
+
+void quicksort(int a[], int low, int high);
+int partition(int a[], int low, int high);
+void swap(int* a, int* b);
+
+void quicksort(int a[], int low, int high) {
+    if (low < high) {
+        int pi = partition(a, low, high);
+        quicksort(a, low, pi - 1);
+        quicksort(a, pi + 1, high);
+    }
+}
+
+void swap(int *a, int *b) {
+    int c = *a;
+    *a = *b;
+    *b = c;
+}
+
+int partition(int a[], int low, int high) {
+    int pivot = a[high];
+    int i = low - 1;
+    for (int j = low; j <= high - 1; j++) {
+        if (a[j] <= pivot) {
+            i++;
+            swap(&a[i], &a[j]);
         }
-      }
     }
-    printf("\n");
-  }
-  void insert_queue(int vertex) {
-    if (rear == MAX - 1)
-      printf("Queue Overflow\n");
-    else {
-      if (front == - 1)
-        front = 0;
-      rear = rear + 1;
-      queue[rear] = vertex;
+    swap(&a[i + 1], &a[high]);
+    return (i + 1);
+}
+
+int main() {
+    srand(time(NULL));
+    int n = 100000;
+    int elements[n];
+
+    for (int i = 0; i < n; i++) {
+        elements[i] = rand() % 1000;
     }
-  }
-  int isEmpty_queue() {
-    if (front == -1 || front > rear)
-      return 1;
-    else
-      return 0;
-  }
-  int delete_queue() {
-    int delete_item;
-    if (front == -1 || front > rear) {
-      printf("Queue Underflow\n");
-      exit(1);
-    } else {
-      delete_item = queue[front];
-      front = front + 1;
-      return delete_item;
+
+    for (int size = 5000; size <= n; size += 2000) {
+        int arr[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = elements[i];
+        }
+
+        clock_t start = clock();
+        quicksort(arr, 0, size - 1);
+        clock_t end = clock();
+
+        printf("Total time taken to sort %d elements is %lf seconds\n", size, ((double)(end - start) / CLOCKS_PER_SEC));
     }
-  }
-  void create_graph() {
-    int i, max_edges, origin, destin;
-    printf("Enter number of vertices: ");
-    scanf("%d", &n);
-    max_edges = n * (n - 1);
-    for (i = 1; i <= max_edges; i++) {
-      printf("Enter edge %d( -1 -1 to quit ) : ", i);
-      scanf("%d %d", &origin, &destin);
-      if ((origin == -1) && (destin == -1))
-        break;
-      if (origin >= n || destin >= n || origin < 0 || destin < 0) {
-        printf("Invalid edge!\n");
-        i--;
-      } else {
-        adj[origin][destin] = 1;
-      }
-    }
-  }`
+
+    return 0;
+}
+`
     },
     {
       id: 11,
       name: 'Program-11',
       code: String.raw`
-  #include <stdio.h>
-  #include <stdlib.h>
-  #define MAX 100
-  #define initial 1
-  #define visited 2
-  #define finished 3
-  int n; // Number of vertices in the graph
-  int adj[MAX][MAX]; // Adjacency Matrix
-  int state[MAX]; // can be initial, visited, finished
-  void create_graph();
-  void DF_Traversal();
-  void DFS(int v);
-  int main() {
-    create_graph();
-    DF_Traversal();
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+
+void merge(int arr[], int l, int m, int r) {
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temp arrays
+    int L[n1], R[n2];
+
+    // Copy data to temp arrays L[] and R[]
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    // Merge the temp arrays back into arr[l..r]
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy the remaining elements of L[], if any
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if any
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        // Find the middle point
+        int m = l + (r - l) / 2;
+
+        // Recursively sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        // Merge the sorted halves
+        merge(arr, l, m, r);
+    }
+}
+
+int main() {
+    srand(time(NULL));
+    int n = 100000;
+    int elements[n];
+
+    // Generate random elements
+    for (int i = 0; i < n; i++)
+        elements[i] = rand() % 1000;
+
+    // Test the sorting algorithm on different sizes of the array
+    for (int size = 5000; size <= n; size += 5000) {
+        int arr[size];
+
+        // Copy elements to the array to be sorted
+        for (int i = 0; i < size; i++)
+            arr[i] = elements[i];
+
+        // Start the clock
+        clock_t start = clock();
+
+        // Perform merge sort
+        mergeSort(arr, 0, size - 1);
+
+        // Stop the clock
+        clock_t end = clock();
+
+        // Print the time taken
+        printf("Total time taken to sort %d elements is %lf seconds\n", size, ((double)(end - start) / CLOCKS_PER_SEC));
+    }
+
     return 0;
-  }
-  void DF_Traversal() {
-    int v;
-    for (v = 0; v < n; v++)
-      state[v] = initial;
-    printf("Enter Start Vertex for DFS: \n");
-    scanf("%d", &v);
-    DFS(v);
-    printf("\n");
-  }
-  void DFS(int v) {
-    int i;
-    printf("%d ", v);
-    state[v] = visited;
-    for (i = 0; i < n; i++) {
-      if (adj[v][i] == 1 && state[i] == initial)
-        DFS(i);
-    }
-    state[v] = finished;
-  }
-  void create_graph() {
-    int i, max_edges, origin, destin;
-    printf("Enter number of vertices: ");
-    scanf("%d", &n);
-    max_edges = n * (n - 1);
-    for (i = 1; i <= max_edges; i++) {
-      printf("Enter edge %d( -1 -1 to quit ) : ", i);
-      scanf("%d %d", &origin, &destin);
-      if ((origin == -1) && (destin == -1))
-        break;
-      if (origin >= n || destin >= n || origin < 0 || destin < 0) {
-        printf("Invalid edge!\n");
-        i--;
-      } else {
-        adj[origin][destin] = 1;
-      }
-    }
-  }`
+}
+`
     },
     {
       id: 12,
